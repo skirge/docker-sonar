@@ -32,5 +32,5 @@ RUN wget -O /opt/sonarqube/extensions/plugins/sonar-java-plugin-$SONAR_JAVA_PLUG
 EXPOSE 9000
 
 WORKDIR $SONARQUBE_HOME
-COPY run.sh $SONARQUBE_HOME/bin/
-ENTRYPOINT ["./bin/run.sh"]
+COPY start-sonar.sh $SONARQUBE_HOME/bin/
+ENTRYPOINT ["./bin/start-sonar.sh"]

@@ -1,6 +1,6 @@
 # docker-sonar
 
-Basic Docker image to run Solar Server
+Docker image to run SonarQube Server
 
 You need add this env:
 

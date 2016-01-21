@@ -1,21 +1,16 @@
-FROM oberthur/docker-ubuntu-java
+FROM oberthur/docker-ubuntu-java:jdk8_8.71.15
 
-ENV SONAR_VERSION 5.3
-ENV SONARQUBE_HOME /opt/sonarqube
-ENV SONAR_LDAP_PLUGIN_VERSION 1.5.1
-ENV SONAR_FINDBUGS_PLUGIN 3.3
-ENV SONAR_JAVA_PLUGIN 3.9
 
-# Install the python script required for "add-apt-repository"
-RUN apt-get update && apt-get install -y software-properties-common unzip wget
+ENV SONAR_VERSION=5.3 \
+    SONARQUBE_HOME=/opt/sonarqube \
+    SONAR_LDAP_PLUGIN_VERSION=1.5.1 \
+    SONAR_FINDBUGS_PLUGIN=3.3 \
+    SONAR_JAVA_PLUGIN=3.9 \
+    LANG=en_US.UTF-8
 
-# Sets language to UTF8
-ENV LANG en_US.UTF-8
-RUN locale-gen $LANG 
-
-RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE
-
-RUN set -x \
+RUN locale-gen $LANG \
+    && apt-get update && apt-get install -y unzip \
+    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE \
     && cd /opt \
     && curl -o sonarqube.zip -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip \
     && curl -o sonarqube.zip.asc -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip.asc \
@@ -23,11 +18,12 @@ RUN set -x \
     && unzip sonarqube.zip \
     && mv sonarqube-$SONAR_VERSION sonarqube \
     && rm sonarqube.zip* \
-    && rm -rf $SONARQUBE_HOME/bin/*
+    && rm -rf $SONARQUBE_HOME/bin/* \
+    && curl -o /opt/sonarqube/extensions/plugins/sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar   https://sonarsource.bintray.com/Distribution/sonar-ldap-plugin/sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar \
+    && curl -o /opt/sonarqube/extensions/plugins/sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-findbugs-plugin/sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar \
+    && curl -o /opt/sonarqube/extensions/plugins/sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar     https://sonarsource.bintray.com/Distribution/sonar-java-plugin/sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar \
+    && apt-get purge unzip
 
-RUN wget -O /opt/sonarqube/extensions/plugins/sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar   https://sonarsource.bintray.com/Distribution/sonar-ldap-plugin/sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar
-RUN wget -O /opt/sonarqube/extensions/plugins/sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-findbugs-plugin/sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar
-RUN wget -O /opt/sonarqube/extensions/plugins/sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar     https://sonarsource.bintray.com/Distribution/sonar-java-plugin/sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar
 
 EXPOSE 9000
 

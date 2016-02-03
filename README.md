@@ -17,5 +17,9 @@ You need add this env:
 
 Usage:
 ```
-docker run -d -p 9000:9000 --name sonar -e SONARQUBE_JDBC_USERNAME=sonar -e SONARQUBE_JDBC_PASSWORD=sonar -e SONARQUBE_JDBC_URL="jdbc:mysql://127.0.0.1:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true" oberthur/sonar
+docker run -d -p 9000:9000 --name sonar -e SONARQUBE_JDBC_USERNAME=sonar -e SONARQUBE_JDBC_PASSWORD=sonar -e SONARQUBE_JDBC_URL="jdbc:mysql://127.0.0.1:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true" oberthur/docker-sonar
+```
+with Ldap:
+```
+docker run -d -p 9000:9000 --name sonar -e SONARQUBE_JDBC_USERNAME=sonar -e SONARQUBE_JDBC_PASSWORD=sonar -e SONARQUBE_JDBC_URL="jdbc:mysql://127.0.0.1:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true"  -e LDAP="TRUE" -e LDAP_URL="127.0.0.1:389" -e USER_BASE_DN="ou=Users,dc=world" -e REAL_NAME_ATTRIBUTE="cn" -e USER_MAIL_ATTRIBUTE="mail" -e GROUP_BASE_DN="ou=Groups,dc=world" -e ID_ATTRIBUTE="cn" oberthur/docker-sonar
 ```

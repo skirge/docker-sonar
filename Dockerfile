@@ -17,7 +17,7 @@ ENV SONAR_VERSION=5.3 \
     LANG=en_US.UTF-8
 
 RUN locale-gen $LANG \
-    && apt-get update && apt-get install -y unzip wget \
+    && apt-get update && apt-get install -y unzip \
     && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE \
     && cd /opt \
     && curl -o sonarqube.zip -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip \
@@ -28,18 +28,18 @@ RUN locale-gen $LANG \
     && rm sonarqube.zip* \
     && rm -rf $SONARQUBE_HOME/bin/* \
     && cd /opt/sonarqube/extensions/plugins/ \
-    && wget https://sonarsource.bintray.com/Distribution/sonar-ldap-plugin/sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar \
-    && wget https://sonarsource.bintray.com/Distribution/sonar-findbugs-plugin/sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar \
-    && wget https://sonarsource.bintray.com/Distribution/sonar-java-plugin/sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar \
-    && wget https://sonarsource.bintray.com/Distribution/sonar-scm-svn-plugin/sonar-scm-svn-plugin-$SONAR_SVN_PLUGIN.jar \
-    && wget https://sonarsource.bintray.com/Distribution/sonar-xml-plugin/sonar-xml-plugin-$SONAR_XML_PLUGIN.jar \
-    && wget https://sonarsource.bintray.com/Distribution/sonar-javascript-plugin/sonar-javascript-plugin-$SONAR_JS_PLUGIN.jar \
-    && wget https://sonarsource.bintray.com/Distribution/sonar-web-plugin/sonar-web-plugin-$SONAR_WEB_PLUGIN.jar \
-    && wget https://sonarsource.bintray.com/Distribution/sonar-widget-lab-plugin/sonar-widget-lab-plugin-$SONAR_WIGET_LAB.jar \
-    && wget https://github.com/SonarQubeCommunity/sonar-css/releases/download/$SONAR_CSS_PLUGIN/sonar-css-plugin.jar \
-    && wget https://github.com/racodond/sonar-json-plugin/releases/download/$SONAR_JSON_PLUGIN/sonar-json-plugin-$SONAR_JSON_PLUGIN.jar \
-    && wget https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar \
-    && apt-get purge unzip wget
+    && curl -o sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar https://sonarsource.bintray.com/Distribution/sonar-ldap-plugin/sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar -L \
+    && curl -o sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-findbugs-plugin/sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar -L \
+    && curl -o sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-java-plugin/sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar -L \
+    && curl -o sonar-scm-svn-plugin-$SONAR_SVN_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-scm-svn-plugin/sonar-scm-svn-plugin-$SONAR_SVN_PLUGIN.jar -L \
+    && curl -o sonar-xml-plugin-$SONAR_XML_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-xml-plugin/sonar-xml-plugin-$SONAR_XML_PLUGIN.jar -L \
+    && curl -o sonar-javascript-plugin-$SONAR_JS_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-javascript-plugin/sonar-javascript-plugin-$SONAR_JS_PLUGIN.jar -L \
+    && curl -o sonar-web-plugin-$SONAR_WEB_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-web-plugin/sonar-web-plugin-$SONAR_WEB_PLUGIN.jar -L \
+    && curl -o sonar-widget-lab-plugin-$SONAR_WIGET_LAB.jar https://sonarsource.bintray.com/Distribution/sonar-widget-lab-plugin/sonar-widget-lab-plugin-$SONAR_WIGET_LAB.jar -L \
+    && curl -o sonar-css-plugin.jar https://github.com/SonarQubeCommunity/sonar-css/releases/download/$SONAR_CSS_PLUGIN/sonar-css-plugin.jar -L \
+    && curl -o sonar-json-plugin-$SONAR_JSON_PLUGIN.jar https://github.com/racodond/sonar-json-plugin/releases/download/$SONAR_JSON_PLUGIN/sonar-json-plugin-$SONAR_JSON_PLUGIN.jar -L \
+    && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
+    && apt-get purge unzip
 
 
 EXPOSE 9000

@@ -1,7 +1,7 @@
-FROM oberthur/docker-ubuntu-java:jdk8_8.71.15
+FROM oberthur/docker-generic-app:jdk8_8.74.02
 
 ENV SONAR_VERSION=5.3 \
-    SONARQUBE_HOME=/opt/sonarqube \
+    SONARQUBE_HOME=/opt/app/sonarqube \
     SONAR_LDAP_PLUGIN_VERSION=1.5.1 \
     SONAR_FINDBUGS_PLUGIN=3.3 \
     SONAR_JAVA_PLUGIN=3.9 \
@@ -13,13 +13,13 @@ ENV SONAR_VERSION=5.3 \
     SONAR_CSS_PLUGIN=1.6 \
     SONAR_SMELL_CODE_PLUGIN=3.0.0 \
     SONAR_JSON_PLUGIN=1.4 \
-    SONAR_WIGET_LAB=1.8.1 \
-    LANG=en_US.UTF-8
+    SONAR_WIGET_LAB=1.8.1
 
-RUN locale-gen $LANG \
-    && apt-get update && apt-get install -y unzip \
+COPY start-sonar.sh /bin/
+
+RUN apt-get update && apt-get install -y unzip \
     && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE \
-    && cd /opt \
+    && cd /opt/app \
     && curl -o sonarqube.zip -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip \
     && curl -o sonarqube.zip.asc -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip.asc \
     && gpg --verify sonarqube.zip.asc \
@@ -27,7 +27,7 @@ RUN locale-gen $LANG \
     && mv sonarqube-$SONAR_VERSION sonarqube \
     && rm sonarqube.zip* \
     && rm -rf $SONARQUBE_HOME/bin/* \
-    && cd /opt/sonarqube/extensions/plugins/ \
+    && cd /opt/app/sonarqube/extensions/plugins/ \
     && curl -o sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar https://sonarsource.bintray.com/Distribution/sonar-ldap-plugin/sonar-ldap-plugin-$SONAR_LDAP_PLUGIN_VERSION.jar -L \
     && curl -o sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-findbugs-plugin/sonar-findbugs-plugin-$SONAR_FINDBUGS_PLUGIN.jar -L \
     && curl -o sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-java-plugin/sonar-java-plugin-$SONAR_JAVA_PLUGIN.jar -L \
@@ -39,11 +39,15 @@ RUN locale-gen $LANG \
     && curl -o sonar-css-plugin.jar https://github.com/SonarQubeCommunity/sonar-css/releases/download/$SONAR_CSS_PLUGIN/sonar-css-plugin.jar -L \
     && curl -o sonar-json-plugin-$SONAR_JSON_PLUGIN.jar https://github.com/racodond/sonar-json-plugin/releases/download/$SONAR_JSON_PLUGIN/sonar-json-plugin-$SONAR_JSON_PLUGIN.jar -L \
     && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
-    && apt-get purge unzip
+    && apt-get purge unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && apt-get -y autoremove
 
+USER app
+
+VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
 
 EXPOSE 9000
 
-WORKDIR $SONARQUBE_HOME
-COPY start-sonar.sh $SONARQUBE_HOME/bin/
-ENTRYPOINT ["./bin/start-sonar.sh"]
+ENTRYPOINT ["/bin/start-sonar.sh"]

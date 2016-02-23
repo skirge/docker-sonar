@@ -42,7 +42,8 @@ RUN apt-get update && apt-get install -y unzip \
     && apt-get purge unzip \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
-    && apt-get -y autoremove
+    && apt-get -y autoremove \
+    && chown -R app:app /opt/app
 
 USER app
 

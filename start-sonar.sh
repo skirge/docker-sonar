@@ -5,7 +5,7 @@ if [ "${LDAP}" != "" ]; then
     echo "" >> /opt/app/sonarqube/conf/sonar.properties
     echo "sonar.security.realm=LDAP" >> /opt/app/sonarqube/conf/sonar.properties
     echo "sonar.security.savePassword=true" >> /opt/app/sonarqube/conf/sonar.properties
-    echo "ldap.url=ldaps://${LDAP_URL}" >> /opt/app/sonarqube/conf/sonar.properties
+    echo "ldap.url=${LDAP_URL}" >> /opt/app/sonarqube/conf/sonar.properties
     echo "ldap.bindDn=${LDAP_BIND_DN}" >> /opt/app/sonarqube/conf/sonar.properties
     echo "ldap.bindPassword=${LDAP_BIND_PASSWORD}" >> /opt/app/sonarqube/conf/sonar.properties
     echo "ldap.authentication=simple" >> /opt/app/sonarqube/conf/sonar.properties

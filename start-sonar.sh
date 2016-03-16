@@ -13,7 +13,7 @@ if [ "${LDAP}" != "" ]; then
     echo "ldap.group.baseDn=${GROUP_BASE_DN}" >> /opt/app/sonarqube/conf/sonar.properties
 fi
 
-exec java -jar /opt/app/sonarqube/lib/sonar-application-$SONAR_VERSION.jar \
+exec java -server -Xms${JVM_MINIMUM_MEMORY:=384m} -Xmx${JVM_MAXIMUM_MEMORY:=768m} ${JAVA_OPTS} -jar /opt/app/sonarqube/lib/sonar-application-$SONAR_VERSION.jar \
   -Dsonar.log.console=true \
   -Dsonar.jdbc.username="$SONARQUBE_JDBC_USERNAME" \
   -Dsonar.jdbc.password="$SONARQUBE_JDBC_PASSWORD" \

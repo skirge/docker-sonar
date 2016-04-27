@@ -15,7 +15,8 @@ ENV SONAR_VERSION=5.4 \
     SONAR_JSON_PLUGIN=1.4 \
     SONAR_WIGET_LAB=1.8.1 \
     SONAR_CPP_PLUGIN=0.9.4
-
+    SONAR_STASH_PLUGIN=1.1.0 
+    
 COPY start-sonar.sh /bin/
 
 RUN apt-get update && apt-get install -y unzip \
@@ -41,6 +42,7 @@ RUN apt-get update && apt-get install -y unzip \
     && curl -o sonar-css-plugin.jar https://github.com/SonarQubeCommunity/sonar-css/releases/download/$SONAR_CSS_PLUGIN/sonar-css-plugin.jar -L \
     && curl -o sonar-json-plugin-$SONAR_JSON_PLUGIN.jar https://github.com/racodond/sonar-json-plugin/releases/download/$SONAR_JSON_PLUGIN/sonar-json-plugin-$SONAR_JSON_PLUGIN.jar -L \
     && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
+    && curl -o sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar https://github.com/AmadeusITGroup/sonar-stash/releases/download/1.1.0/sonar-stash-plugin-1.1.0.jar -L \
     && apt-get purge unzip \
     && chown -R app:app /opt/app \
     && apt-get clean autoclean \
@@ -50,7 +52,3 @@ RUN apt-get update && apt-get install -y unzip \
 USER app
 
 VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
-
-EXPOSE 9000
-
-ENTRYPOINT ["/bin/start-sonar.sh"]

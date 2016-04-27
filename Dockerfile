@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y unzip \
     && curl -o sonar-css-plugin.jar https://github.com/SonarQubeCommunity/sonar-css/releases/download/$SONAR_CSS_PLUGIN/sonar-css-plugin.jar -L \
     && curl -o sonar-json-plugin-$SONAR_JSON_PLUGIN.jar https://github.com/racodond/sonar-json-plugin/releases/download/$SONAR_JSON_PLUGIN/sonar-json-plugin-$SONAR_JSON_PLUGIN.jar -L \
     && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
-    && curl -o sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar https://github.com/AmadeusITGroup/sonar-stash/releases/download/1.1.0/sonar-stash-plugin-1.1.0.jar -L \
+    && curl -o sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar https://github.com/AmadeusITGroup/sonar-stash/releases/download/$SONAR_STASH_PLUGIN/sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar -L \
     && apt-get purge unzip \
     && chown -R app:app /opt/app \
     && apt-get clean autoclean \

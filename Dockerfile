@@ -52,3 +52,7 @@ RUN apt-get update && apt-get install -y unzip \
 USER app
 
 VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
+
+EXPOSE 9000
+
+ENTRYPOINT ["/bin/start-sonar.sh"]

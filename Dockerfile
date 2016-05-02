@@ -4,18 +4,19 @@ ENV SONAR_VERSION=5.4 \
     SONARQUBE_HOME=/opt/app/sonarqube \
     SONAR_LDAP_PLUGIN_VERSION=1.5.1 \
     SONAR_FINDBUGS_PLUGIN=3.3 \
-    SONAR_JAVA_PLUGIN=3.12 \
+    SONAR_JAVA_PLUGIN=3.13.1 \
     SONAR_SVN_PLUGIN=1.3 \
     SONAR_XML_PLUGIN=1.4.1 \
-    SONAR_JS_PLUGIN=2.11 \
+    SONAR_JS_PLUGIN=2.12 \
     SONAR_LDAP_PLUGIN=1.5.1 \
     SONAR_WEB_PLUGIN=2.4 \
     SONAR_CSS_PLUGIN=1.7 \
     SONAR_SMELL_CODE_PLUGIN=3.0.0 \
     SONAR_JSON_PLUGIN=1.4 \
     SONAR_WIGET_LAB=1.8.1 \
-    SONAR_CPP_PLUGIN=0.9.4
-
+    SONAR_CPP_PLUGIN=0.9.4 \
+    SONAR_STASH_PLUGIN=1.1.0 
+    
 COPY start-sonar.sh /bin/
 
 RUN apt-get update && apt-get install -y unzip \
@@ -41,6 +42,7 @@ RUN apt-get update && apt-get install -y unzip \
     && curl -o sonar-css-plugin.jar https://github.com/SonarQubeCommunity/sonar-css/releases/download/$SONAR_CSS_PLUGIN/sonar-css-plugin.jar -L \
     && curl -o sonar-json-plugin-$SONAR_JSON_PLUGIN.jar https://github.com/racodond/sonar-json-plugin/releases/download/$SONAR_JSON_PLUGIN/sonar-json-plugin-$SONAR_JSON_PLUGIN.jar -L \
     && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
+    && curl -o sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar https://github.com/AmadeusITGroup/sonar-stash/releases/download/$SONAR_STASH_PLUGIN/sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar -L \
     && apt-get purge unzip \
     && chown -R app:app /opt/app \
     && apt-get clean autoclean \

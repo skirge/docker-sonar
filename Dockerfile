@@ -2,7 +2,7 @@ FROM oberthur/docker-generic-app:jdk8_8.91.14
 
 ENV SONAR_VERSION=5.6 \
     SONARQUBE_HOME=/opt/app/sonarqube \
-    SONAR_LDAP_PLUGIN_VERSION=1.5.1 \
+    SONAR_LDAP_PLUGIN_VERSION=2.0 \
     SONAR_FINDBUGS_PLUGIN=3.3 \
     SONAR_JAVA_PLUGIN=3.14 \
     SONAR_SVN_PLUGIN=1.3 \

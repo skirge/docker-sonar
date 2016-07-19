@@ -3,19 +3,20 @@ FROM oberthur/docker-generic-app:jdk8_8.91.14
 ENV SONAR_VERSION=5.6 \
     SONARQUBE_HOME=/opt/app/sonarqube \
     SONAR_LDAP_PLUGIN_VERSION=2.0 \
-    SONAR_FINDBUGS_PLUGIN=3.3 \
-    SONAR_JAVA_PLUGIN=3.14 \
+    SONAR_FINDBUGS_PLUGIN=3.4.3 \
+    SONAR_JAVA_PLUGIN=4.0 \
     SONAR_SVN_PLUGIN=1.3 \
     SONAR_XML_PLUGIN=1.4.1 \
-    SONAR_JS_PLUGIN=2.13 \
+    SONAR_JS_PLUGIN=2.14 \
     SONAR_LDAP_PLUGIN=1.5.1 \
     SONAR_WEB_PLUGIN=2.4 \
-    SONAR_CSS_PLUGIN=1.9 \
+    SONAR_CSS_PLUGIN=2.0 \
     SONAR_SMELL_CODE_PLUGIN=3.0.0 \
     SONAR_JSON_PLUGIN=1.4 \
     SONAR_WIGET_LAB=1.8.1 \
     SONAR_CPP_PLUGIN=0.9.4 \
-    SONAR_STASH_PLUGIN=1.1.0 
+    SONAR_STASH_PLUGIN=1.1.0 \
+    SONAR_BUILD_BREAKER=2.1 
     
 COPY start-sonar.sh /bin/
 
@@ -43,6 +44,7 @@ RUN apt-get update && apt-get install -y unzip \
     && curl -o sonar-json-plugin-$SONAR_JSON_PLUGIN.jar https://github.com/racodond/sonar-json-plugin/releases/download/$SONAR_JSON_PLUGIN/sonar-json-plugin-$SONAR_JSON_PLUGIN.jar -L \
     && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
     && curl -o sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar https://github.com/AmadeusITGroup/sonar-stash/releases/download/$SONAR_STASH_PLUGIN/sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar -L \
+    && curl -o sonar-build-breaker-$SONAR_BUILD_BREAKER.jar https://github.com/SonarQubeCommunity/sonar-build-breaker/releases/download/$SONAR_BUILD_BREAKER/sonar-build-breaker-plugin-$SONAR_BUILD_BREAKER.jar -L \
     && apt-get purge unzip \
     && chown -R app:app /opt/app \
     && apt-get clean autoclean \

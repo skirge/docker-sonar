@@ -16,7 +16,8 @@ ENV SONAR_VERSION=5.6.1 \
     SONAR_WIGET_LAB=1.8.1 \
     SONAR_CPP_PLUGIN=0.9.4 \
     SONAR_STASH_PLUGIN=1.1.0-ot \
-    SONAR_BUILD_BREAKER=2.1 
+    SONAR_BUILD_BREAKER=2.1 \
+    SONAR_DEPENDENCY_CHECK=1.0.3 
     
 COPY start-sonar.sh /bin/
 
@@ -45,6 +46,7 @@ RUN apt-get update && apt-get install -y unzip \
     && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
     && curl -o sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar https://github.com/oberthur/sonar-stash/releases/download/$SONAR_STASH_PLUGIN/sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar -L \
     && curl -o sonar-build-breaker-$SONAR_BUILD_BREAKER.jar https://github.com/SonarQubeCommunity/sonar-build-breaker/releases/download/$SONAR_BUILD_BREAKER/sonar-build-breaker-plugin-$SONAR_BUILD_BREAKER.jar -L \
+    && curl -o sonar-dependency-check-$SONAR_DEPENDENCY_CHECK.jar https://github.com/stevespringett/dependency-check-sonar-plugin/releases/tag/sonar-dependency-check-$SONAR_DEPENDENCY_CHECK -L \
     && apt-get purge unzip \
     && chown -R app:app /opt/app \
     && apt-get clean autoclean \

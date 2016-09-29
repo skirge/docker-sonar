@@ -1,4 +1,4 @@
-FROM oberthur/docker-generic-app:jdk8_8.91.14
+FROM oberthur/docker-generic-app:jdk8_8.102.14
 
 ENV SONAR_VERSION=5.6.1 \
     SONARQUBE_HOME=/opt/app/sonarqube \

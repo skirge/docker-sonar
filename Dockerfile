@@ -17,7 +17,8 @@ ENV SONAR_VERSION=5.6.3 \
     SONAR_CPP_PLUGIN=0.9.4 \
     SONAR_STASH_PLUGIN=1.1.0-ot \
     SONAR_BUILD_BREAKER=2.1 \
-    SONAR_DEPENDENCY_CHECK=1.0.3
+    SONAR_DEPENDENCY_CHECK=1.0.3 \
+    SONAR_PDF_REPORT_PLUGIN=1.4
 
 COPY start-sonar.sh /bin/
 
@@ -47,6 +48,7 @@ RUN apt-get update && apt-get install -y unzip \
     && curl -o sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar https://github.com/oberthur/sonar-stash/releases/download/$SONAR_STASH_PLUGIN/sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar -L \
     && curl -o sonar-build-breaker-$SONAR_BUILD_BREAKER.jar https://github.com/SonarQubeCommunity/sonar-build-breaker/releases/download/$SONAR_BUILD_BREAKER/sonar-build-breaker-plugin-$SONAR_BUILD_BREAKER.jar -L \
     && curl -o sonar-dependency-check-plugin-$SONAR_DEPENDENCY_CHECK.jar https://github.com/stevespringett/dependency-check-sonar-plugin/releases/download/sonar-dependency-check-$SONAR_DEPENDENCY_CHECK/sonar-dependency-check-plugin-$SONAR_DEPENDENCY_CHECK.jar -L \
+    && curl -o sonar-pdfreport-plugin-$SONAR_PDF_REPORT_PLUGIN.jar http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-pdfreport-plugin/$SONAR_PDF_REPORT_PLUGIN/sonar-pdfreport-plugin-$SONAR_PDF_REPORT_PLUGIN.jar \
     && apt-get purge unzip \
     && chown -R app:app /opt/app \
     && apt-get clean autoclean \

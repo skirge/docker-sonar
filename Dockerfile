@@ -5,12 +5,12 @@ ENV SONAR_VERSION=5.6.5 \
     SONAR_LDAP_PLUGIN_VERSION=2.1.0.507 \
     SONAR_FINDBUGS_PLUGIN=3.4.3 \
     SONAR_JAVA_PLUGIN=4.5.0.8398 \
-    SONAR_SVN_PLUGIN=1.4 \
+    SONAR_SVN_PLUGIN=1.4.0.522 \
     SONAR_XML_PLUGIN=1.4.1 \
-    SONAR_JS_PLUGIN=2.20.4207 \
+    SONAR_JS_PLUGIN=2.21.1.4786 \
     SONAR_LDAP_PLUGIN=2.1.0.507 \
     SONAR_WEB_PLUGIN=2.5.0.476 \
-    SONAR_CSS_PLUGIN=3.0 \
+    SONAR_CSS_PLUGIN=4.5 \
     SONAR_SMELL_CODE_PLUGIN=4.0.0 \
     SONAR_JSON_PLUGIN=2.0 \
     SONAR_WIGET_LAB=1.8.1 \
@@ -44,7 +44,7 @@ RUN apt-get update && apt-get install -y unzip \
     && curl -o sonar-widget-lab-plugin-$SONAR_WIGET_LAB.jar https://sonarsource.bintray.com/Distribution/sonar-widget-lab-plugin/sonar-widget-lab-plugin-$SONAR_WIGET_LAB.jar -L \
     && curl -o sonar-css-plugin-$SONAR_CSS_PLUGIN.jar https://github.com/racodond/sonar-css-plugin/releases/download/$SONAR_CSS_PLUGIN/sonar-css-plugin-$SONAR_CSS_PLUGIN.jar -L \
     && curl -o sonar-json-plugin-$SONAR_JSON_PLUGIN.jar https://github.com/racodond/sonar-json-plugin/releases/download/$SONAR_JSON_PLUGIN/sonar-json-plugin-$SONAR_JSON_PLUGIN.jar -L \
-    && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
+    && curl -o qualinsight-plugins-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar https://github.com/QualInsight/qualinsight-plugins-sonarqube-smell/releases/download/qualinsight-plugins-sonarqube-smell-$SONAR_SMELL_CODE_PLUGIN/qualinsight-sonarqube-smell-plugin-$SONAR_SMELL_CODE_PLUGIN.jar -L \
     && curl -o sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar https://github.com/oberthur/sonar-stash/releases/download/$SONAR_STASH_PLUGIN/sonar-stash-plugin-$SONAR_STASH_PLUGIN.jar -L \
     && curl -o sonar-build-breaker-$SONAR_BUILD_BREAKER.jar https://github.com/SonarQubeCommunity/sonar-build-breaker/releases/download/$SONAR_BUILD_BREAKER/sonar-build-breaker-plugin-$SONAR_BUILD_BREAKER.jar -L \
     && curl -o sonar-dependency-check-plugin-$SONAR_DEPENDENCY_CHECK.jar https://github.com/stevespringett/dependency-check-sonar-plugin/releases/download/sonar-dependency-check-$SONAR_DEPENDENCY_CHECK/sonar-dependency-check-plugin-$SONAR_DEPENDENCY_CHECK.jar -L \

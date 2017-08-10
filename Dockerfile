@@ -1,28 +1,28 @@
-FROM oberthur/docker-generic-app:jdk8_8.121.13_3
+FROM oberthur/docker-generic-app:openjdk-8u131b11_2
 
-ENV SONAR_VERSION=5.6.5 \
+ENV SONAR_VERSION=5.6.6 \
     SONARQUBE_HOME=/opt/app/sonarqube \
-    SONAR_LDAP_PLUGIN_VERSION=2.1.0.507 \
-    SONAR_FINDBUGS_PLUGIN=3.4.3 \
-    SONAR_JAVA_PLUGIN=4.5.0.8398 \
-    SONAR_SVN_PLUGIN=1.4.0.522 \
-    SONAR_XML_PLUGIN=1.4.1 \
-    SONAR_JS_PLUGIN=2.21.1.4786 \
-    SONAR_LDAP_PLUGIN=2.1.0.507 \
+    SONAR_LDAP_PLUGIN_VERSION=2.2.0.608 \
+    SONAR_FINDBUGS_PLUGIN=3.4.4 \
+    SONAR_JAVA_PLUGIN=4.9.0.9858 \
+    SONAR_SVN_PLUGIN=1.5.0.715 \
+    SONAR_XML_PLUGIN=1.4.3.1027 \
+    SONAR_JS_PLUGIN=3.1.1.5128 \
+    SONAR_LDAP_PLUGIN=2.2.0.608 \
     SONAR_WEB_PLUGIN=2.5.0.476 \
-    SONAR_CSS_PLUGIN=4.5 \
+    SONAR_CSS_PLUGIN=4.8 \
     SONAR_SMELL_CODE_PLUGIN=4.0.0 \
-    SONAR_JSON_PLUGIN=2.0 \
+    SONAR_JSON_PLUGIN=2.2 \
     SONAR_WIGET_LAB=1.8.1 \
-    SONAR_CPP_PLUGIN=0.9.4 \
+    SONAR_CPP_PLUGIN=0.9.7 \
     SONAR_STASH_PLUGIN=1.1.1-ot \
-    SONAR_BUILD_BREAKER=2.1 \
+    SONAR_BUILD_BREAKER=2.2 \
     SONAR_DEPENDENCY_CHECK=1.0.3 \
     SONAR_PDF_REPORT_PLUGIN=1.4
 
 COPY start-sonar.sh /bin/
 
-RUN apt-get update && apt-get install -y unzip \
+RUN apt-get update && apt-get install -y curl unzip \
 #    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE \
     && cd /opt/app \
     && curl -o sonarqube.zip -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip \

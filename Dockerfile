@@ -18,11 +18,12 @@ ENV SONAR_VERSION=5.6.6 \
     SONAR_STASH_PLUGIN=1.1.1-ot \
     SONAR_BUILD_BREAKER=2.2 \
     SONAR_DEPENDENCY_CHECK=1.0.3 \
-    SONAR_PDF_REPORT_PLUGIN=1.4
+    SONAR_PDF_REPORT_PLUGIN=1.4 \
+    SONAR_SCALA_PLUGIN=0.0.4
 
 COPY start-sonar.sh /bin/
 
-RUN apt-get update && apt-get install -y curl unzip \
+RUN apt-get update && apt-get install -y curl unzip gnupg-curl \
 #    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE \
     && cd /opt/app \
     && curl -o sonarqube.zip -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip \
@@ -49,7 +50,12 @@ RUN apt-get update && apt-get install -y curl unzip \
     && curl -o sonar-build-breaker-$SONAR_BUILD_BREAKER.jar https://github.com/SonarQubeCommunity/sonar-build-breaker/releases/download/$SONAR_BUILD_BREAKER/sonar-build-breaker-plugin-$SONAR_BUILD_BREAKER.jar -L \
     && curl -o sonar-dependency-check-plugin-$SONAR_DEPENDENCY_CHECK.jar https://github.com/stevespringett/dependency-check-sonar-plugin/releases/download/sonar-dependency-check-$SONAR_DEPENDENCY_CHECK/sonar-dependency-check-plugin-$SONAR_DEPENDENCY_CHECK.jar -L \
     && curl -o sonar-pdfreport-plugin-$SONAR_PDF_REPORT_PLUGIN.jar http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-pdfreport-plugin/$SONAR_PDF_REPORT_PLUGIN/sonar-pdfreport-plugin-$SONAR_PDF_REPORT_PLUGIN.jar \
-    && apt-get purge unzip \
+    && curl -o sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar https://github.com/skirge/sonar-scala/releases/download/v$SONAR_SCALA_PLUGIN/sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar -L \
+    && curl -o sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc https://github.com/skirge/sonar-scala/releases/download/v$SONAR_SCALA_PLUGIN/sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc -L \
+    && gpg --keyserver pgp.mit.edu --recv-keys 2369A2A44F2081E9005B33FD688B99853EF879F1 \
+    && gpg --verify sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc \
+    && rm -f sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc \
+    && apt-get purge unzip curl gnupg-curl \
     && chown -R app:app /opt/app \
     && apt-get clean autoclean \
     && apt-get autoremove --yes \

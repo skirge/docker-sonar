@@ -1,4 +1,4 @@
-FROM oberthur/docker-generic-app:openjdk-8u131b11_2
+FROM oberthur/docker-generic-app:openjdk-8u131b11_4
 
 ENV SONAR_VERSION=5.6.6 \
     SONARQUBE_HOME=/opt/app/sonarqube \
@@ -19,16 +19,17 @@ ENV SONAR_VERSION=5.6.6 \
     SONAR_BUILD_BREAKER=2.2 \
     SONAR_DEPENDENCY_CHECK=1.0.3 \
     SONAR_PDF_REPORT_PLUGIN=1.4 \
-    SONAR_SCALA_PLUGIN=0.0.4
+    SONAR_SCALA_PLUGIN=0.0.4 \
+		SONAR_GIT_PLUGIN=1.2
 
 COPY start-sonar.sh /bin/
 
 RUN apt-get update && apt-get install -y curl unzip gnupg-curl \
-#    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE \
+    && gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE \
     && cd /opt/app \
     && curl -o sonarqube.zip -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip \
     && curl -o sonarqube.zip.asc -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip.asc \
-#    && gpg --verify sonarqube.zip.asc \
+    && gpg --verify sonarqube.zip.asc \
     && unzip sonarqube.zip \
     && mv sonarqube-$SONAR_VERSION sonarqube \
     && rm sonarqube.zip* \
@@ -52,7 +53,8 @@ RUN apt-get update && apt-get install -y curl unzip gnupg-curl \
     && curl -o sonar-pdfreport-plugin-$SONAR_PDF_REPORT_PLUGIN.jar http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-pdfreport-plugin/$SONAR_PDF_REPORT_PLUGIN/sonar-pdfreport-plugin-$SONAR_PDF_REPORT_PLUGIN.jar \
     && curl -o sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar https://github.com/skirge/sonar-scala/releases/download/v$SONAR_SCALA_PLUGIN/sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar -L \
     && curl -o sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc https://github.com/skirge/sonar-scala/releases/download/v$SONAR_SCALA_PLUGIN/sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc -L \
-    && gpg --keyserver pgp.mit.edu --recv-keys 2369A2A44F2081E9005B33FD688B99853EF879F1 \
+    && curl -o sonar-scm-git-plugin-$SONAR_GIT_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-scm-git-plugin/sonar-scm-git-plugin-$SONAR_GIT_PLUGIN -L \
+		&& gpg  --keyserver hkp://pgp.mit.edu:80 --recv-keys 2369A2A44F2081E9005B33FD688B99853EF879F1 \
     && gpg --verify sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc \
     && rm -f sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc \
     && apt-get purge unzip curl gnupg-curl \

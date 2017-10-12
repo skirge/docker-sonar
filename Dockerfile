@@ -1,14 +1,13 @@
 FROM oberthur/docker-generic-app:openjdk-8u131b11_4
 
-ENV SONAR_VERSION=5.6.6 \
+ENV SONAR_VERSION=5.6.7 \
     SONARQUBE_HOME=/opt/app/sonarqube \
     SONAR_LDAP_PLUGIN_VERSION=2.2.0.608 \
-    SONAR_FINDBUGS_PLUGIN=3.4.4 \
-    SONAR_JAVA_PLUGIN=4.9.0.9858 \
+    SONAR_FINDBUGS_PLUGIN=3.6.0 \
+    SONAR_JAVA_PLUGIN=4.14.0.11784 \
     SONAR_SVN_PLUGIN=1.5.0.715 \
     SONAR_XML_PLUGIN=1.4.3.1027 \
     SONAR_JS_PLUGIN=3.1.1.5128 \
-    SONAR_LDAP_PLUGIN=2.2.0.608 \
     SONAR_WEB_PLUGIN=2.5.0.476 \
     SONAR_CSS_PLUGIN=4.8 \
     SONAR_SMELL_CODE_PLUGIN=4.0.0 \
@@ -20,7 +19,9 @@ ENV SONAR_VERSION=5.6.6 \
     SONAR_DEPENDENCY_CHECK=1.0.3 \
     SONAR_PDF_REPORT_PLUGIN=1.4 \
     SONAR_SCALA_PLUGIN=0.0.4 \
-		SONAR_GIT_PLUGIN=1.2
+    SONAR_GIT_PLUGIN=1.2 \
+    SONAR_FINDBUGS_SCALA_PLUGIN=1.0 \
+    SONAR_KOTLIN_VERSION=0.2.4
 
 COPY start-sonar.sh /bin/
 
@@ -53,10 +54,18 @@ RUN apt-get update && apt-get install -y curl unzip gnupg-curl \
     && curl -o sonar-pdfreport-plugin-$SONAR_PDF_REPORT_PLUGIN.jar http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-pdfreport-plugin/$SONAR_PDF_REPORT_PLUGIN/sonar-pdfreport-plugin-$SONAR_PDF_REPORT_PLUGIN.jar \
     && curl -o sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar https://github.com/skirge/sonar-scala/releases/download/v$SONAR_SCALA_PLUGIN/sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar -L \
     && curl -o sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc https://github.com/skirge/sonar-scala/releases/download/v$SONAR_SCALA_PLUGIN/sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc -L \
-    && curl -o sonar-scm-git-plugin-$SONAR_GIT_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-scm-git-plugin/sonar-scm-git-plugin-$SONAR_GIT_PLUGIN -L \
-		&& gpg  --keyserver hkp://pgp.mit.edu:80 --recv-keys 2369A2A44F2081E9005B33FD688B99853EF879F1 \
+    && curl -o sonar-scm-git-plugin-$SONAR_GIT_PLUGIN.jar https://sonarsource.bintray.com/Distribution/sonar-scm-git-plugin/sonar-scm-git-plugin-$SONAR_GIT_PLUGIN.jar -L \
+    && curl -o sonar-scm-git-plugin-$SONAR_GIT_PLUGIN.jar.asc https://sonarsource.bintray.com/Distribution/sonar-scm-git-plugin/sonar-scm-git-plugin-$SONAR_GIT_PLUGIN.jar.asc -L \
+    && gpg --verify sonar-scm-git-plugin-$SONAR_GIT_PLUGIN.jar.asc \
+    && rm -f sonar-scm-git-plugin-$SONAR_GIT_PLUGIN.jar.asc \
+    && gpg  --keyserver hkp://pgp.mit.edu:80 --recv-keys 2369A2A44F2081E9005B33FD688B99853EF879F1 \
     && gpg --verify sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc \
     && rm -f sonar-scala-plugin-$SONAR_SCALA_PLUGIN.jar.asc \
+    && curl -o find-sec-bugs-scala-$SONAR_FINDBUGS_SCALA_PLUGIN.jar https://github.com/skirge/findsecbugsscala/releases/download/v${SONAR_FINDBUGS_SCALA_PLUGIN}/find-sec-bugs-scala-${SONAR_FINDBUGS_SCALA_PLUGIN}-SNAPSHOT.jar -L \
+    && curl -o find-sec-bugs-scala-$SONAR_FINDBUGS_SCALA_PLUGIN.jar.asc https://github.com/skirge/findsecbugsscala/releases/download/v${SONAR_FINDBUGS_SCALA_PLUGIN}/find-sec-bugs-scala-${SONAR_FINDBUGS_SCALA_PLUGIN}-SNAPSHOT.jar.asc -L \
+    && gpg --verify find-sec-bugs-scala-$SONAR_FINDBUGS_SCALA_PLUGIN.jar.asc \
+    && rm -f find-sec-bugs-scala-$SONAR_FINDBUGS_SCALA_PLUGIN.jar.asc \
+    && curl -o sonar-kotlin-$SONAR_KOTLIN_VERSION.jar https://github.com/arturbosch/sonar-kotlin/releases/download/$SONAR_KOTLIN_VERSION/sonar-kotlin-$SONAR_KOTLIN_VERSION.jar -L \
     && apt-get purge unzip curl gnupg-curl \
     && chown -R app:app /opt/app \
     && apt-get clean autoclean \
